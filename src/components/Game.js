@@ -1,5 +1,8 @@
 import {useGame} from "../contexts/GraphContext"
 import React, {useContext, useState, useEffect} from 'react'
+import { Card, Button, Row, Col, Container, Image, Alert, ListGroup } from "react-bootstrap"
+import {Link, useHistory } from "react-router-dom"
+
 
 
 
@@ -8,6 +11,8 @@ export default function Game() {
     const[currentActor, setCurrentActor] = useState(null)
     const[solution, setSolution] = useState(null)
     const[loading, setLoading] = useState(true)
+
+    const history = useHistory()
 
 
     const { graph } = useGame()
@@ -28,8 +33,21 @@ export default function Game() {
         setLoading(false)
     },[])
 
+    function startGame(){
+        history.push("/game")
+    }
+
+    function goHome(){
+        history.push("/")
+    }
+
     return (
-        <div>
+        <Container fluid>
+            <Row style={{backgroundColor: "#333"}}>
+                <Button variant="dark" className="w-25" onClick={goHome} style={{marginLeft:"150px"}}>Home</Button>
+                <Button variant="secondary" className="w-25" onClick={startGame}>Start Game</Button>
+                <Button variant="info" className="w-25">Scoreboard</Button>
+            </Row>
             {!loading && solution}
             <div>
                 {!loading && graph.endActor.name}
@@ -37,6 +55,11 @@ export default function Game() {
             <div>
                 {!loading && currentActor.name}
             </div>
-        </div>
+            <ListGroup>
+                {!loading && Array.from(currentActor.movies).map((movie) => (
+                <ListGroup.Item>{movie.name}</ListGroup.Item>
+                ))}
+            </ListGroup>
+        </Container>
     )
 }
