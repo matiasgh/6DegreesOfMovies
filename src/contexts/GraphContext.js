@@ -14,6 +14,8 @@ export function useGame(){
 export function GameProvider({children}) {
 
     const [graph, setGraph] = useState()
+    const [allMovies, setAllMovies] = useState()
+    const [allActors, setAllActors] = useState()
 
     // A loading switch to make sure that "user" will not be used whenever user state is null
     const [loading, setLoading] = useState(true)
@@ -25,8 +27,8 @@ export function GameProvider({children}) {
 
 
     const ref = app.firestore().collection("data")
-    const allMovies = new Map()
-    const allActors = new Map()
+    const tempAllMovies = new Map()
+    const tempAllActors = new Map()
 
 
     function prepMovies(items){
@@ -35,7 +37,7 @@ export function GameProvider({children}) {
             moviesArr.split("|").forEach((movie, i) =>{
                 const line = (movie.split("\t"))
 
-                allMovies.set(line[0].trim(), new Movie(line))
+                tempAllMovies.set(line[0].trim(), new Movie(line))
             })
         })
         prepActors(items[0].actors)
@@ -56,14 +58,14 @@ export function GameProvider({children}) {
                     // Looping threw the movies in the actor, to add Movies and Actors objects in each Actor and Movie
                     for (let i = 2; i < cleansedLine.length; i++) {
                         const m = cleansedLine[i].trim()
-                        if(allMovies.has(m)){
-                            newActor.addMovie(allMovies.get(m))
-                            allMovies.get(m).addActor(newActor)
+                        if(tempAllMovies.has(m)){
+                            newActor.addMovie(tempAllMovies.get(m))
+                            tempAllMovies.get(m).addActor(newActor)
                         }
                     }
                     
                     if(newActor.movies.size !== 0){
-                        allActors.set(cleansedLine[0].trim(), newActor)
+                        tempAllActors.set(cleansedLine[0].trim(), newActor)
                     }
                 }                
             })
@@ -76,8 +78,10 @@ export function GameProvider({children}) {
         ref.get().then((item) => {
             const items = item.docs.map((doc) => doc.data())
             prepMovies(items)
-            const g = new Graph(allMovies, allActors)
+            const g = new Graph(tempAllMovies, tempAllActors)
             setGraph(g)
+            setAllActors(tempAllActors)
+            setAllMovies(tempAllMovies)
             setLoading(false)
 
         })
@@ -94,7 +98,8 @@ export function GameProvider({children}) {
         currentActor,
         solution,
         loading,
-        setLoading
+        allMovies,
+        allActors
     }
 
     //Sets the current user as context, so it can be easly accessed in other components

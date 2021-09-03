@@ -11,11 +11,13 @@ export default function Game() {
     const[currentActor, setCurrentActor] = useState(null)
     const[solution, setSolution] = useState(null)
     const[loading, setLoading] = useState(true)
+    const[currentMovie, setCurrentMovie] = useState(null)
+    const[renderMovie, setRenderMovie] = useState(false)
 
     const history = useHistory()
 
 
-    const { graph } = useGame()
+    const { graph, allActors, allMovies } = useGame()
 
     function structurePath(path){
         let sol = ""
@@ -31,6 +33,7 @@ export default function Game() {
         setSolution(structurePath(paths))
         setCurrentActor(graph.startActor)
         setLoading(false)
+        console.log(allMovies)
     },[])
 
     function startGame(){
@@ -40,6 +43,20 @@ export default function Game() {
     function goHome(){
         history.push("/")
     }
+
+    function goMovie(id){
+        var m = allMovies.get(id)
+        setCurrentMovie(m)
+        setRenderMovie(true)
+
+    }
+
+    function goActor(id){
+        var a = allActors.get(id)
+        setCurrentActor(a)
+        setRenderMovie(false)
+    }
+
 
     return (
         <Container fluid>
@@ -56,8 +73,13 @@ export default function Game() {
                 {!loading && currentActor.name}
             </div>
             <ListGroup>
-                {!loading && Array.from(currentActor.movies).map((movie) => (
-                <ListGroup.Item>{movie.name}</ListGroup.Item>
+                {!loading && !renderMovie && Array.from(currentActor.movies).map((movie) => (
+                <ListGroup.Item action onClick={() => goMovie(movie.id)}>{movie.name}</ListGroup.Item>
+                ))}
+            </ListGroup>
+            <ListGroup>
+                {!loading && renderMovie && Array.from(currentMovie.actors).map((actor) => (
+                <ListGroup.Item action onClick={() => goActor(actor.id)}>{actor.name}</ListGroup.Item>
                 ))}
             </ListGroup>
         </Container>
