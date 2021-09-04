@@ -3,10 +3,6 @@ import { Card, Button, Row, Col, Container, Image, Alert } from "react-bootstrap
 import {Link, useHistory } from "react-router-dom"
 import {useState, useEffect} from "react"
 import {useAuth} from "../contexts/AuthContext"
-import app from "../firebase"
-import {Movie} from "../graphComponents/Movie"
-import {Actor} from "../graphComponents/Actor"
-import {Graph} from "../graphComponents/Graph"
 
 export default function Menu() {
     const[loading, setLoading] = useState(false)
