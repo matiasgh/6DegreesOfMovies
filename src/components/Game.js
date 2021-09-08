@@ -1,4 +1,5 @@
 import {useGame} from "../contexts/GraphContext"
+import GameOver from "./GameOver"
 import React, {useContext, useState, useEffect} from 'react'
 import { Card, Button, Row, Col, Container, Image, Alert, ListGroup } from "react-bootstrap"
 import {Link, useHistory } from "react-router-dom"
@@ -12,14 +13,13 @@ export default function Game() {
 
     const[currentActor, setCurrentActor] = useState(null)
     const[solution, setSolution] = useState(null)
-    const[solutionArr, setSolutionArr] = useState(null)
     const[loading, setLoading] = useState(true)
     const[currentMovie, setCurrentMovie] = useState(null)
     const[renderMovie, setRenderMovie] = useState(false)
     const[degree, setDegree] = useState(0)
     const[userPath, setUserPath] = useState([])
     const[gameOver, setGameOver] = useState(false)
-    const[time, setTime] = useState(new Date().getTime())
+    const[time, setTime] = useState(Date.now())
     const[score, setScore] = useState(0)
 
     const history = useHistory()
@@ -38,16 +38,12 @@ export default function Game() {
     function calculateScore(){
         var sc = 10000
         sc = degree > 6 ? sc : sc + 5000
-
-        let timePoints = (500-(new Date().getTime()-time))
+        let timePoints = (500-((Date.now() - time) /1000))
         timePoints = timePoints>0 ? timePoints : 0
 
-        sc = Math.pow(solutionArr.length/2, 2)*sc
-        console.log(solutionArr.length)
-        console.log(Math.pow(solutionArr.length/2, 2))
-        console.log(sc)
+        sc = Math.pow(solution.length/2, 2)*sc
         var div = degree*50
-        return parseInt(sc/div)+timePoints+100
+        return parseInt((sc/div)+timePoints+100)
     }
 
     useEffect(() => {
@@ -57,10 +53,12 @@ export default function Game() {
             graph.setRandom()
             paths = (graph.findOptimal())
         }
-        console.log(paths)
-        setSolutionArr(paths)
-        setSolution(structurePath(paths))
+        console.log(paths.reverse())
+        setSolution(paths)
         setCurrentActor(graph.startActor)
+        var up = userPath
+        up.push(graph.startActor)
+        setUserPath(up)
         setLoading(false)
     },[])
 
@@ -71,8 +69,10 @@ export default function Game() {
                 if(graph.endActor.movies.has(movies[i])){
                     console.log(calculateScore())
                     setScore(calculateScore())
+                    var up = userPath
+                    up.push(graph.endActor)
+                    setUserPath(up)
                     setGameOver(true)
-                    
                 }
             }
         }
@@ -89,6 +89,10 @@ export default function Game() {
     function goMovie(id){
         var m = allMovies.get(id)
         setCurrentMovie(m)
+        var up = userPath
+        up.push(m)
+        setUserPath(up)
+        console.log(userPath)
         setRenderMovie(true)
         setDegree(degree+1)
 
@@ -97,6 +101,10 @@ export default function Game() {
     function goActor(id){
         var a = allActors.get(id)
         setCurrentActor(a)
+        var up = userPath
+        up.push(a)
+        setUserPath(up)
+        console.log(userPath)
         setRenderMovie(false)
     }
 
@@ -162,15 +170,7 @@ export default function Game() {
                     </div>
                 </Card>
             </Container>}
-            <Container className="d-flex align-items-center justify-content-center">
-                {gameOver && <Card bg-secondary className="d-flex align-items-center justify-content-center mt-5" style={{maxWidth: "600px"}}>
-                    <h2>Game Over</h2>
-                    <h4 className="text-success">Congratulations!</h4>
-                    <br></br>
-                    hello
-                    <h2>Score: {score}</h2>
-                </Card>}
-            </Container>
+            {gameOver && <GameOver score={score} solution={solution} userPath={userPath}/>}
         </Container>
     )
 }
