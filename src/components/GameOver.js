@@ -1,6 +1,6 @@
-import { BiMovie, BiArrowBack} from "react-icons/bi"
+import { BiMovie } from "react-icons/bi"
 import { FaTheaterMasks } from "react-icons/fa"
-import { Card, Button, Row, Col, Container, Image, Alert, ListGroup } from "react-bootstrap"
+import { Card, Row, Col, Container, ListGroup } from "react-bootstrap"
 import {Movie} from "../graphComponents/Movie"
 
 
@@ -31,8 +31,8 @@ export default function GameOver({ score, solution, userPath }) {
                                         {userPath.map((e) => (
                                         <ListGroup.Item> 
                                             <h6>
-                                                {(e instanceof Movie) ? <BiMovie style={{color:"black"}} style={{marginRight:"20px"}}/> 
-                                                    : <FaTheaterMasks style={{color:"black"}} style={{marginRight:"20px"}}/> }
+                                                {(e instanceof Movie) ? <BiMovie style={{color:"black", marginRight:"20px"}}/> 
+                                                    : <FaTheaterMasks style={{color:"black", marginRight:"20px"}}/> }
                                                 {e.name}
                                             </h6>
                                         </ListGroup.Item>
@@ -46,8 +46,8 @@ export default function GameOver({ score, solution, userPath }) {
                                         {solution.map((e) => (
                                         <ListGroup.Item> 
                                             <h6>
-                                                {(e instanceof Movie) ? <BiMovie style={{color:"black"}} style={{marginRight:"20px"}}/> 
-                                                    : <FaTheaterMasks style={{color:"black"}} style={{marginRight:"20px"}}/> }
+                                                {(e instanceof Movie) ? <BiMovie style={{color:"black", marginRight:"20px"}}/> 
+                                                    : <FaTheaterMasks style={{color:"black", marginRight:"20px"}}/> }
                                                 {e.name}
                                             </h6>
                                         </ListGroup.Item>

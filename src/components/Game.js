@@ -1,8 +1,9 @@
 import {useGame} from "../contexts/GraphContext"
 import GameOver from "./GameOver"
-import React, {useContext, useState, useEffect} from 'react'
-import { Card, Button, Row, Col, Container, Image, Alert, ListGroup } from "react-bootstrap"
-import {Link, useHistory } from "react-router-dom"
+import StartGame from "./StartGame"
+import React, {useState, useEffect} from 'react'
+import { Card, Button, Row, Col, Container, ListGroup } from "react-bootstrap"
+import { useHistory } from "react-router-dom"
 import { BiMovie, BiArrowBack} from "react-icons/bi"
 import { FaTheaterMasks } from "react-icons/fa"
 
@@ -27,13 +28,6 @@ export default function Game() {
 
     const { graph, allActors, allMovies } = useGame()
 
-    function structurePath(path){
-        var sol = ""
-        for (let i = 0; i < path.length; i++){
-            i !== 0 ? sol = sol + " => " + path[i].name : sol = path[i].name
-        }
-        return sol
-    }
 
     function calculateScore(){
         var sc = 10000
@@ -46,21 +40,22 @@ export default function Game() {
         return parseInt((sc/div)+timePoints+100)
     }
 
-    useEffect(() => {
-        graph.setRandom()
-        let paths = (graph.findOptimal())
-        while(paths == null && paths.length <= 4){
-            graph.setRandom()
-            paths = (graph.findOptimal())
-        }
-        console.log(paths.reverse())
-        setSolution(paths)
-        setCurrentActor(graph.startActor)
-        var up = userPath
-        up.push(graph.startActor)
-        setUserPath(up)
-        setLoading(false)
-    },[])
+    const initiateSetSolution = (state) =>{
+        setSolution(state)
+    }
+
+    const initiateSetCurrentActor = (state) =>{
+        setCurrentActor(state)
+    }
+
+    const initiateSetUserPath = (state) =>{
+        setUserPath(state)
+    }
+
+    const initiateSetLoading = (state) =>{
+        setLoading(state)
+    }
+
 
     useEffect(() => {
         if(currentActor != null){
@@ -73,6 +68,7 @@ export default function Game() {
                     up.push(graph.endActor)
                     setUserPath(up)
                     setGameOver(true)
+                    break
                 }
             }
         }
@@ -92,7 +88,6 @@ export default function Game() {
         var up = userPath
         up.push(m)
         setUserPath(up)
-        console.log(userPath)
         setRenderMovie(true)
         setDegree(degree+1)
 
@@ -104,7 +99,6 @@ export default function Game() {
         var up = userPath
         up.push(a)
         setUserPath(up)
-        console.log(userPath)
         setRenderMovie(false)
     }
 
@@ -117,6 +111,7 @@ export default function Game() {
                 <Button variant="dark" className="w-25" onClick={startGame}>Start Game</Button>
             </Row>
             <h4> <BiArrowBack style={{color:"blue", cursor: "pointer"}} onClick={goHome}/> Back</h4>
+            {loading && <StartGame setSolution={initiateSetSolution} setCurrentActor={initiateSetCurrentActor} setUserPath={initiateSetUserPath} setLoading={initiateSetLoading}/>}
             {!loading && !gameOver && <Container fluid style={{maxWidth: "1000px"}}>
                 <Row>
                     <Col className = "text-center">
@@ -143,7 +138,7 @@ export default function Game() {
                             <h6>
                                 <Row>
                                     <Col>
-                                        <BiMovie style={{color:"black"}} style={{marginRight:"20px"}}/>
+                                        <BiMovie style={{color:"black", marginRight:"20px"}}/>
                                         {movie.name}
                                     </Col>
                                     <Col md="auto">
@@ -161,7 +156,7 @@ export default function Game() {
                         {renderMovie && Array.from(currentMovie.actors).sort().map((actor) => (
                         <ListGroup.Item action onClick={() => goActor(actor.id)}>
                             <h6>
-                                <FaTheaterMasks style={{color:"black"}} style={{marginRight:"20px"}}/>  
+                                <FaTheaterMasks style={{color:"black", marginRight:"20px"}}/>  
                                 {actor.name}
                             </h6>
                         </ListGroup.Item>

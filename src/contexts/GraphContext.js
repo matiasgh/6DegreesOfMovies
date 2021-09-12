@@ -73,21 +73,19 @@ export function GameProvider({children}) {
     }
 
 
-
-    function getData(){
-        ref.get().then((item) => {
-            const items = item.docs.map((doc) => doc.data())
-            prepMovies(items)
-            const g = new Graph(tempAllMovies, tempAllActors)
-            setGraph(g)
-            setAllActors(tempAllActors)
-            setAllMovies(tempAllMovies)
-            setLoading(false)
-
-        })
-    }
-
     useEffect(() => {
+        function getData(){
+            ref.get().then((item) => {
+                const items = item.docs.map((doc) => doc.data())
+                prepMovies(items)
+                const g = new Graph(tempAllMovies, tempAllActors)
+                setGraph(g)
+                setAllActors(tempAllActors)
+                setAllMovies(tempAllMovies)
+                setLoading(false)
+    
+            })
+        }
         getData()
 
     },[])

@@ -66,8 +66,7 @@ export default function Signup() {
                     </Form>
                 </Card.Body>
             </Card>
-            <h1 className="text-center mb-5"/>
-            <div className="w-100 text-center mt-2">
+            <div className="w-100 text-center mt-5">
                 Already have an account? <Link to="/Login">Log In</Link>
             </div>
         </>

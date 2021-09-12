@@ -1,4 +1,3 @@
-import React, { Component } from 'react'
 import { useAuth } from "../contexts/AuthContext"
 import { Route, Redirect } from "react-router-dom"
 

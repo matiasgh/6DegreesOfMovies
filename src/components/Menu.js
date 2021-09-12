@@ -1,7 +1,7 @@
 import React from 'react'
-import { Card, Button, Row, Col, Container, Image, Alert } from "react-bootstrap"
+import { Card, Button, Row, Container, Image, Alert } from "react-bootstrap"
 import {Link, useHistory } from "react-router-dom"
-import {useState, useEffect} from "react"
+import {useState} from "react"
 import {useAuth} from "../contexts/AuthContext"
 
 export default function Menu() {

@@ -1,7 +1,7 @@
 import Signup from "./components/Signup" 
 import Menu from "./components/Menu"
 import Login from "./components/Login"
-import {Container, Row, Col, Button, Image} from "react-bootstrap"
+import {Container} from "react-bootstrap"
 import {AuthProvider} from "./contexts/AuthContext"
 import {GameProvider} from "./contexts/GraphContext"
 import {BrowserRouter as Router, Switch, Route} from "react-router-dom"
