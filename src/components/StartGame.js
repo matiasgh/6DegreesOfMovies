@@ -3,15 +3,17 @@ import {useGame} from "../contexts/GraphContext"
 
 
 
-export default function StartGame( {setSolution, setCurrentActor, setUserPath, setLoading }){
+export default function StartGame( {setSolution, setCurrentActor, setUserPath, setLoading, setBaseScore}){
 
     const { graph } = useGame()
 
     function initiateGame(difficulty){
+        // Setting up different difficulties in graph
         difficulty === "easy" ? graph.setRandomEasy(): difficulty === "medium" ? graph.setRandomMedium(): graph.setRandom()
+        // Setting up base score for different difficultis 
+        difficulty === "easy" ? setBaseScore(5000): difficulty === "medium" ? setBaseScore(7500): setBaseScore(10000)
         let paths = (graph.findOptimal())
         while(paths == null || paths.length <= 4){
-            console.log("hey")
             difficulty === "easy" ? graph.setRandomEasy(): difficulty === "medium" ? graph.setRandomMedium(): graph.setRandom()
             paths = (graph.findOptimal())
         }
@@ -27,7 +29,7 @@ export default function StartGame( {setSolution, setCurrentActor, setUserPath, s
 
     return(
         <>
-        <h2 className="text-center mb-5">Helo From Start Game</h2>
+        <h2 className="text-center mb-5">Select your Diffculty</h2>
         <Container className="d-flex align-items-center justify-content-center mb-5">
             <Col style ={{maxWidth: "400px"}}>
             <Button variant="success" className="w-100 mb-3" onClick={() => initiateGame("easy")}>Easy</Button>

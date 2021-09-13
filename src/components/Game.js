@@ -21,6 +21,7 @@ export default function Game() {
     const[userPath, setUserPath] = useState([])
     const[gameOver, setGameOver] = useState(false)
     const[time, setTime] = useState(Date.now())
+    const[baseScore, setBaseScore] = useState(0)
     const[score, setScore] = useState(0)
 
     const history = useHistory()
@@ -30,7 +31,8 @@ export default function Game() {
 
 
     function calculateScore(){
-        var sc = 10000
+        var sc = baseScore
+        console.log(sc)
         sc = degree > 6 ? sc : sc + 5000
         let timePoints = (500-((Date.now() - time) /1000))
         timePoints = timePoints>0 ? timePoints : 0
@@ -54,6 +56,10 @@ export default function Game() {
 
     const initiateSetLoading = (state) =>{
         setLoading(state)
+    }
+
+    const initiateSetBaseScore = (state) =>{
+        setBaseScore(state)
     }
 
 
@@ -111,7 +117,8 @@ export default function Game() {
                 <Button variant="dark" className="w-25" onClick={startGame}>Start Game</Button>
             </Row>
             <h4> <BiArrowBack style={{color:"blue", cursor: "pointer"}} onClick={goHome}/> Back</h4>
-            {loading && <StartGame setSolution={initiateSetSolution} setCurrentActor={initiateSetCurrentActor} setUserPath={initiateSetUserPath} setLoading={initiateSetLoading}/>}
+            {loading && <StartGame setSolution={initiateSetSolution} setCurrentActor={initiateSetCurrentActor} 
+                setUserPath={initiateSetUserPath} setLoading={initiateSetLoading} setBaseScore={initiateSetBaseScore}/>}
             {!loading && !gameOver && <Container fluid style={{maxWidth: "1000px"}}>
                 <Row>
                     <Col className = "text-center">
@@ -121,7 +128,8 @@ export default function Game() {
                     <Col className = "text-center">
                         <h4 style={{color: "black", display: 'flex',  justifyContent:'center', alignItems:'center'}}>Moves: {degree}</h4>
                         <br/>
-                        <h4 style={{color: "grey", display: 'flex',  justifyContent:'center', alignItems:'center'}}>Current {renderMovie ? "Movie: " + currentMovie.name : "Actor: " + currentActor.name}</h4>
+                        <h4 style={{color: "grey", display: 'flex',  justifyContent:'center', alignItems:'center'}}>
+                            Current {renderMovie ? "Movie: " + currentMovie.name : "Actor: " + currentActor.name}</h4>
                     </Col>
                     <Col className = "text-center">
                         <h5>Actor to find:</h5>
