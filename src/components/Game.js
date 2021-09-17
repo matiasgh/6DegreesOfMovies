@@ -81,6 +81,7 @@ export default function Game() {
     },[currentMovie])
 
     function startGame(){
+        setLoading(true)
         history.push("/game")
     }
 
@@ -122,8 +123,8 @@ export default function Game() {
             {!loading && !gameOver && <Container fluid style={{maxWidth: "1000px"}}>
                 <Row>
                     <Col className = "text-center">
-                        <h5>Start actor:</h5>
-                        {graph.startActor.name}
+                        <h3 style={{fontWeight: "bold"}}>Start actor:</h3>
+                        <h5>{graph.startActor.name}</h5>
                     </Col>
                     <Col className = "text-center">
                         <h4 style={{color: "black", display: 'flex',  justifyContent:'center', alignItems:'center'}}>Moves: {degree}</h4>
@@ -132,8 +133,8 @@ export default function Game() {
                             Current {renderMovie ? "Movie: " + currentMovie.name : "Actor: " + currentActor.name}</h4>
                     </Col>
                     <Col className = "text-center">
-                        <h5>Actor to find:</h5>
-                        {graph.endActor.name}
+                        <h3 style={{fontWeight: "bold"}}>Actor to find:</h3>
+                        <h5>{graph.endActor.name}</h5>
                     </Col>
                 </Row>
             </Container>}
@@ -142,7 +143,7 @@ export default function Game() {
                     <div className="overflow-auto">
                     <ListGroup>
                         {!renderMovie && Array.from(currentActor.movies).sort().map((movie) => (
-                        <ListGroup.Item action onClick={() => goMovie(movie.id)}> 
+                        <ListGroup.Item style={{backgroundColor:"cornsilk"}} action onClick={() => goMovie(movie.id)}> 
                             <h6>
                                 <Row>
                                     <Col>
@@ -162,7 +163,7 @@ export default function Game() {
                     </ListGroup>
                     <ListGroup>
                         {renderMovie && Array.from(currentMovie.actors).sort().map((actor) => (
-                        <ListGroup.Item action onClick={() => goActor(actor.id)}>
+                        <ListGroup.Item style={{backgroundColor:"seashell"}} action onClick={() => goActor(actor.id)}>
                             <h6>
                                 <FaTheaterMasks style={{color:"black", marginRight:"20px"}}/>  
                                 {actor.name}
