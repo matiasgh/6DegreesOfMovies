@@ -35,7 +35,7 @@ export default function Menu() {
             <Container fluid >  
                 <Row style={{backgroundColor: "#333"}}>
                     <Button variant="secondary" className="w-25" style={{marginLeft:"150px"}}>Scoreboard</Button>
-                    <Button variant="dark" className="w-25" onClick={startGame}>Start Game</Button>
+                    <Button variant="dark" className="w-25" onClick={startGame} active>Start Game</Button>
                 </Row>
                 <Container className="mb-5" fluid style ={{maxWidth: "1000px"}}>
                     <Image align="center" src="https://png.pngtree.com/thumb_back/fh260/back_our/20190621/ourmid/pngtree-film-scene-film-background-image_190374.jpg" rounded className="w-100 mb-5 text-center" style={{height:'250px', maxWidth: "1000px"}}/>
