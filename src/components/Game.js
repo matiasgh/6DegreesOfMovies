@@ -6,6 +6,7 @@ import { Card, Button, Row, Col, Container, ListGroup } from "react-bootstrap"
 import { useHistory } from "react-router-dom"
 import { BiMovie, BiArrowBack} from "react-icons/bi"
 import { FaTheaterMasks } from "react-icons/fa"
+import Scoreboard from "./Scoreboard"
 
 
 
@@ -80,10 +81,24 @@ export default function Game() {
         }
     },[currentMovie])
 
+    // If user starts a new game we need to reset from the previous game
+    useEffect(() =>{
+        setDegree(0)
+        setUserPath([currentActor])
+        setTime(Date.now())
+        setRenderMovie(false)
+    },[loading])
+
     function startGame(){
         setLoading(true)
+        setGameOver(false)
         history.push("/game")
     }
+
+    function scoreboard(){
+        history.push("/scoreboard")
+    }
+
 
     function goHome(){
         history.push("/")
@@ -114,7 +129,7 @@ export default function Game() {
         
         <Container fluid>
             <Row style={{backgroundColor: "#333"}}>
-                <Button variant="secondary" className="w-25" style={{marginLeft:"150px"}}>Scoreboard</Button>
+                <Button variant="secondary" className="w-25" style={{marginLeft:"150px"}} onClick={scoreboard}>Scoreboard</Button>
                 <Button variant="dark" className="w-25" onClick={startGame}>Start Game</Button>
             </Row>
             <h4> <BiArrowBack style={{color:"blue", cursor: "pointer"}} onClick={goHome}/> Back</h4>
@@ -163,7 +178,7 @@ export default function Game() {
                     </ListGroup>
                     <ListGroup>
                         {renderMovie && Array.from(currentMovie.actors).sort().map((actor) => (
-                        <ListGroup.Item style={{backgroundColor:"seashell"}} action onClick={() => goActor(actor.id)}>
+                        <ListGroup.Item style={{backgroundColor:"cornsilk"}} action onClick={() => goActor(actor.id)}>
                             <h6>
                                 <FaTheaterMasks style={{color:"black", marginRight:"20px"}}/>  
                                 {actor.name}

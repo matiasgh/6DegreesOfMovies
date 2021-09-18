@@ -8,6 +8,7 @@ import {BrowserRouter as Router, Switch, Route} from "react-router-dom"
 import { GiFilmSpool } from "react-icons/gi"
 import PrivateRoute from './components/PrivateRoute'
 import Game from "./components/Game"
+import Scoreboard from "./components/Scoreboard"
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
           <Switch>
               <PrivateRoute exact path="/" component={Menu}/>
               <Route path ="/game" component={Game}/>
+              <Route path ="/scoreboard" component={Scoreboard}/>
             <Container fluid style ={{maxWidth: "1000px"}}>
               <Route path = "/signup" component={Signup}/>
               <Route path = "/login" component={Login}/>

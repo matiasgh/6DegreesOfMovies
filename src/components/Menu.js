@@ -3,6 +3,7 @@ import { Card, Button, Row, Container, Image, Alert } from "react-bootstrap"
 import {Link, useHistory } from "react-router-dom"
 import {useState} from "react"
 import {useAuth} from "../contexts/AuthContext"
+import Scoreboard from './Scoreboard'
 
 export default function Menu() {
     const[loading, setLoading] = useState(false)
@@ -11,6 +12,10 @@ export default function Menu() {
     
     function startGame(){
         history.push("/game")
+    }
+
+    function scoreboard(){
+        history.push("/scoreboard")
     }
 
 
@@ -34,7 +39,7 @@ export default function Menu() {
     return (
             <Container fluid >  
                 <Row style={{backgroundColor: "#333"}}>
-                    <Button variant="secondary" className="w-25" style={{marginLeft:"150px"}}>Scoreboard</Button>
+                    <Button variant="secondary" className="w-25" onClick={scoreboard} style={{marginLeft:"150px"}}>Scoreboard</Button>
                     <Button variant="dark" className="w-25" onClick={startGame} active>Start Game</Button>
                 </Row>
                 <Container className="mb-5" fluid style ={{maxWidth: "1000px"}}>

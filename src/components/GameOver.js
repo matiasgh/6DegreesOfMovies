@@ -29,7 +29,7 @@ export default function GameOver({ score, solution, userPath }) {
                                     <h4 className="text-center">Your path</h4> 
                                     <ListGroup>
                                         {userPath.map((e) => (
-                                        <ListGroup.Item style={{backgroundColor:"whitesmoke"}}> 
+                                        <ListGroup.Item style={{backgroundColor:"cornsilk"}}> 
                                             <h6>
                                                 {(e instanceof Movie) ? <BiMovie style={{color:"black", marginRight:"20px"}}/> 
                                                     : <FaTheaterMasks style={{color:"black", marginRight:"20px"}}/> }
@@ -44,7 +44,7 @@ export default function GameOver({ score, solution, userPath }) {
                                 <h4 className="text-center">Optimal path</h4>
                                 <ListGroup>
                                         {solution.map((e) => (
-                                        <ListGroup.Item style={{backgroundColor:"lightyellow"}}> 
+                                        <ListGroup.Item style={{backgroundColor:"cornsilk"}}> 
                                             <h6>
                                                 {(e instanceof Movie) ? <BiMovie style={{color:"black", marginRight:"20px"}}/> 
                                                     : <FaTheaterMasks style={{color:"black", marginRight:"20px"}}/> }

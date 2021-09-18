@@ -8,15 +8,32 @@ export default function StartGame( {setSolution, setCurrentActor, setUserPath, s
     const { graph } = useGame()
 
     function initiateGame(difficulty){
-        // Setting up different difficulties in graph
-        difficulty === "easy" ? graph.setRandomEasy(): difficulty === "medium" ? graph.setRandomMedium(): graph.setRandom()
-        // Setting up base score for different difficultis 
-        difficulty === "easy" ? setBaseScore(5000): difficulty === "medium" ? setBaseScore(7500): setBaseScore(10000)
-        let paths = (graph.findOptimal())
-        while(paths == null || paths.length <= 4){
+        
+        var paths = null
+            // There is a few errors in the data set, so in case a defected movie or actor was in use we try again
+        try {
+            // Setting up different difficulties in graph
             difficulty === "easy" ? graph.setRandomEasy(): difficulty === "medium" ? graph.setRandomMedium(): graph.setRandom()
+            // Setting up base score for different difficultis 
+            difficulty === "easy" ? setBaseScore(5000): difficulty === "medium" ? setBaseScore(7500): setBaseScore(10000)
             paths = (graph.findOptimal())
+            while(paths == null || paths.length <= 4){
+                difficulty === "easy" ? graph.setRandomEasy(): difficulty === "medium" ? graph.setRandomMedium(): graph.setRandom()
+                paths = (graph.findOptimal())
+            }
         }
+          catch (exception_var) {
+            // Setting up different difficulties in graph
+            difficulty === "easy" ? graph.setRandomEasy(): difficulty === "medium" ? graph.setRandomMedium(): graph.setRandom()
+            // Setting up base score for different difficultis 
+            difficulty === "easy" ? setBaseScore(5000): difficulty === "medium" ? setBaseScore(7500): setBaseScore(10000)
+            paths = (graph.findOptimal())
+            while(paths == null || paths.length <= 4){
+                difficulty === "easy" ? graph.setRandomEasy(): difficulty === "medium" ? graph.setRandomMedium(): graph.setRandom()
+                paths = (graph.findOptimal())
+            }
+        }
+        
         console.log(paths.reverse())
         setSolution(paths)
         setCurrentActor(graph.startActor)
