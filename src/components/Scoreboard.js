@@ -10,30 +10,48 @@ export default function Scoreboard(){
     const[tab, setTab] = useState("your scores")
     const[loading, setLoading] = useState(true)
     const[scores, setScores] = useState([])
+    const[highScores, setHighScores] = useState([])
+    const[showScores, setShowScores] = useState([])
 
     const {currentUser} = useAuth()
 
-    const ref = app.firestore().collection("data")
-
-    const docRef = app.firestore().collection("scores").doc(currentUser.email);
+    const colRef = app.firestore().collection("scores")
 
     useEffect(() => {
-        docRef.get().then((doc) => {
+        let unsubscribe = colRef.doc(currentUser.email).get().then((doc) => {
             if (doc.exists) {
+                console.log(doc.data())
                 var ob = Object.values(doc.data())
-                ob.sort((a,b) => parseInt(a[0]) - (b[0]));
-                console.log("Document data:", ob);
-                setScores(ob.reverse())
+                ob.sort((a,b) => parseInt(a[0]) - (b[0]))
+                console.log("Document data:", ob)
+                setScores(ob.reverse().slice(0,10))
+                setShowScores(ob.slice(0,10))
+
             } else {
                 // doc.data() will be undefined in this case
-                console.log("No such document!");
+                console.log("No such document!")
             }
         }).catch((error) => {
-            console.log("Error getting document:", error);
+            console.log("Error getting document:", error)
+        })
+
+        let unsubscribe2 = colRef.doc("highscores").get().then((doc) => {
+            console.log(doc.data())
+            var ob = Object.values(doc.data())
+            ob.sort((a,b) => parseInt(a[0]) - (b[0]))
+            console.log("Document data:", ob)
+            setHighScores(ob.reverse())
+            
+        }).catch((error) => {
+            console.log("Error getting collection:", error)
         });
 
         setLoading(false)
+
+        return () => unsubscribe, unsubscribe2
     },[])
+
+    
     
 
     function startGame(){
@@ -52,11 +70,13 @@ export default function Scoreboard(){
     }
 
     function yourScores(){
+        setShowScores(scores)
         setTab("your scores")
     }
 
     function toppScores(){
-        setTab("toppscores")
+        setShowScores(highScores)
+        setTab("high scores")
     }
 
     function aboutScores(){
@@ -81,7 +101,7 @@ export default function Scoreboard(){
                         </Nav.Item>
                         <Nav.Item>
                             <Nav.Link style={{color:"black", backgroundColor: "lightcoral"}} onClick={toppScores}>
-                                <h5>Toppscores</h5>
+                                <h5>High Scores</h5>
                             </Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
@@ -91,13 +111,13 @@ export default function Scoreboard(){
                         </Nav.Item>
                     </Nav>
                     <Card.Body>
-                        <h5 className="mt-5">
+                        {(tab !== "about scores") && <h5 className="mt-5">
                             <Row>
                                 <Col>No.</Col><Col>Game Mode</Col><Col>No. of Moves</Col><Col>Optimal No. of Moves</Col><Col style={{textAlign: "right"}}>Score</Col>
                             </Row>
-                        </h5>
+                        </h5>}
                         <ListGroup>
-                            {!loading && tab === "your scores" && scores.map((e, index) => (
+                            {!loading && (tab !== "about scores") && showScores.map((e, index) => (
                                         <ListGroup.Item style={{backgroundColor:"lightblue"}}> 
                                             <div>
                                                 <Row>
@@ -121,7 +141,6 @@ export default function Scoreboard(){
                                         </ListGroup.Item>
                                         ))}
                         </ListGroup>
-                        {tab === "toppscores" && <p>toppscores</p>}
                         {tab === "about scores" && <p>about scores</p>}
                     </Card.Body>
                 </Card>

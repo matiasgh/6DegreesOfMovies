@@ -74,20 +74,18 @@ export function GameProvider({children}) {
 
 
     useEffect(() => {
-        function getData(){
-            ref.get().then((item) => {
-                const items = item.docs.map((doc) => doc.data())
-                prepMovies(items)
-                const g = new Graph(tempAllMovies, tempAllActors)
-                setGraph(g)
-                setAllActors(tempAllActors)
-                setAllMovies(tempAllMovies)
-                setLoading(false)
+        let unsubscribe = ref.get().then((item) => {
+            const items = item.docs.map((doc) => doc.data())
+            prepMovies(items)
+            const g = new Graph(tempAllMovies, tempAllActors)
+            setGraph(g)
+            setAllActors(tempAllActors)
+            setAllMovies(tempAllMovies)
+            setLoading(false)
     
             })
-        }
-        getData()
-
+        
+        return () => unsubscribe()
     },[])
 
     // exports current user and signup fuction so you can do signup requests from signup component
