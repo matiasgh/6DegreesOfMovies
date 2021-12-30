@@ -40,7 +40,7 @@ export default function Scoreboard(){
             var ob = Object.values(doc.data())
             ob.sort((a,b) => parseInt(a[0]) - (b[0]))
             console.log("Document data:", ob)
-            setHighScores(ob.reverse())
+            setHighScores(ob.reverse().slice(0,10))
             
         }).catch((error) => {
             console.log("Error getting collection:", error)
@@ -92,7 +92,7 @@ export default function Scoreboard(){
             </Row>
             <h4> <BiArrowBack style={{color:"blue", cursor: "pointer"}} onClick={goHome}/> Back</h4>
             <Container flex>
-                <Card>
+                <Card style={{backgroundColor:"lightgrey"}}>
                     <Nav variant="tabs" fill>
                         <Nav.Item>
                             <Nav.Link style={{color:"black", backgroundColor: "lightpink"}} onClick={yourScores}>
@@ -113,7 +113,7 @@ export default function Scoreboard(){
                     <Card.Body>
                         {(tab !== "about scores") && <h5 className="mt-5">
                             <Row>
-                                <Col>No.</Col><Col>Game Mode</Col><Col>No. of Moves</Col><Col>Optimal No. of Moves</Col><Col style={{textAlign: "right"}}>Score</Col>
+                                <Col>No.</Col><Col>User Name</Col><Col>Game Mode</Col><Col>No. of Moves</Col><Col>Optimal No. of Moves</Col><Col style={{textAlign: "right"}}>Score</Col>
                             </Row>
                         </h5>}
                         <ListGroup>
@@ -125,10 +125,13 @@ export default function Scoreboard(){
                                                         <h4>{index+1}.</h4>
                                                     </Col>
                                                     <Col>
-                                                        <h5>{e[1]}</h5>
-                                                    </Col >
+                                                        <h4>{e[1]}</h4>
+                                                    </Col>
                                                     <Col>
                                                         <h5>{e[2]}</h5>
+                                                    </Col >
+                                                    <Col>
+                                                        <h5>{e[3]}</h5>
                                                     </Col>
                                                     <Col> 
                                                         <h5>{e[3]}</h5>

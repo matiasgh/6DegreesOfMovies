@@ -3,6 +3,7 @@ export class Actor{
     constructor(list){
         this.id = list[0].trim()
         this.name = list[1]
+        this.picture = list[2]
         this.movies = new Set()
     }
 

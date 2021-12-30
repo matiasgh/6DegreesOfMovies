@@ -2,7 +2,7 @@ import {useGame} from "../contexts/GraphContext"
 import GameOver from "./GameOver"
 import StartGame from "./StartGame"
 import React, {useState, useEffect} from 'react'
-import { Card, Button, Row, Col, Container, ListGroup } from "react-bootstrap"
+import { Card, Button, Row, Col, Container, ListGroup, Image } from "react-bootstrap"
 import { useHistory } from "react-router-dom"
 import { BiMovie, BiArrowBack} from "react-icons/bi"
 import { FaTheaterMasks } from "react-icons/fa"
@@ -63,18 +63,27 @@ export default function Game() {
         setBaseScore(state)
     }
 
+    function putScore(score){
+
+    }
 
     useEffect(() => {
         if(currentActor != null){
             const movies = Array.from(currentActor.movies)
             for (let i = 0; i < movies.length; i++) {
                 if(graph.endActor.movies.has(movies[i])){
-                    console.log(calculateScore())
-                    setScore(calculateScore())
+                    let sc = calculateScore() 
+                    setScore(sc)
                     var up = userPath
                     up.push(graph.endActor)
                     setUserPath(up)
                     setGameOver(true)
+                    try {
+                        putScore(sc)            
+                    }
+                    catch{
+                        console.log("failed to put score")
+                    }
                     break
                 }
             }
@@ -139,7 +148,12 @@ export default function Game() {
                 <Row>
                     <Col className = "text-center">
                         <h3 style={{fontWeight: "bold"}}>Start actor:</h3>
-                        <h5>{graph.startActor.name}</h5>
+                        <h5>
+                            {graph.startActor.picture != "undefined" && 
+                            <Image src={graph.startActor.picture} fluid style={{marginRight:"20px", maxHeight:"80px"}}/>}
+                            {graph.startActor.picture == "undefined" && <FaTheaterMasks style={{marginRight:"20px"}}/>}  
+                            {graph.startActor.name}
+                        </h5>
                     </Col>
                     <Col className = "text-center">
                         <h4 style={{color: "black", display: 'flex',  justifyContent:'center', alignItems:'center'}}>Moves: {degree}</h4>
@@ -149,7 +163,12 @@ export default function Game() {
                     </Col>
                     <Col className = "text-center">
                         <h3 style={{fontWeight: "bold"}}>Actor to find:</h3>
-                        <h5>{graph.endActor.name}</h5>
+                        <h5>
+                            {graph.endActor.name}
+                            {graph.endActor.picture != "undefined" && 
+                            <Image src={graph.endActor.picture} fluid style={{marginLeft:"20px", maxHeight:"80px"}}/>}
+                            {graph.endActor.picture == "undefined" && <FaTheaterMasks style={{color:"black", marginLeft:"20px"}}/>}
+                        </h5>
                     </Col>
                 </Row>
             </Container>}
@@ -162,10 +181,10 @@ export default function Game() {
                             <h6>
                                 <Row>
                                     <Col>
-                                        <BiMovie style={{color:"black", marginRight:"20px"}}/>
+                                        <Image src={movie.picture} fluid style={{marginRight:"20px", maxHeight:"50px"}}/>
                                         {movie.name}
                                     </Col>
-                                    <Col md="auto">
+                                    <Col md="auto"  className="text-center" style={{verticalAlign: "middle"}}>
                                         {movie.rating}
                                     </Col>
                                     <Col md="auto">
@@ -180,7 +199,9 @@ export default function Game() {
                         {renderMovie && Array.from(currentMovie.actors).sort().map((actor) => (
                         <ListGroup.Item style={{backgroundColor:"cornsilk"}} action onClick={() => goActor(actor.id)}>
                             <h6>
-                                <FaTheaterMasks style={{color:"black", marginRight:"20px"}}/>  
+                                {actor.picture != "undefined" && 
+                                <Image src={actor.picture} fluid style={{color:"black", marginRight:"20px", maxHeight:"50px"}}/>}
+                                {actor.picture == "undefined" && <FaTheaterMasks style={{color:"black", marginRight:"20px"}}/>}  
                                 {actor.name}
                             </h6>
                         </ListGroup.Item>

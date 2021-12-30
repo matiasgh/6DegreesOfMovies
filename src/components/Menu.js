@@ -45,7 +45,9 @@ export default function Menu() {
                 <Container className="mb-5" fluid style ={{maxWidth: "1000px"}}>
                     <Image align="center" src="https://png.pngtree.com/thumb_back/fh260/back_our/20190621/ourmid/pngtree-film-scene-film-background-image_190374.jpg" rounded className="w-100 mb-5 text-center" style={{height:'250px', maxWidth: "1000px"}}/>
 
-                        Currently logged in as: {currentUser.email !== null && currentUser.email}
+                        Currently logged in as: {!loading && currentUser.displayName !== null && currentUser.displayName} 
+                        {console.log(currentUser.displayName)}
+                        {console.log(currentUser.email)}
                     <Card >
                         <Card.Body>
                             {error && <Alert variant="danger">{error}</Alert>}   

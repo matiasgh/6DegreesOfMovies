@@ -17,8 +17,15 @@ export function AuthProvider({children}) {
     const [loading, setLoading] = useState(true)
 
     // Make request to firebase to make a new user, on success the new user will be signed in
-    function signup(email, password){
+    async function signup(email, password, userName){
         return auth.createUserWithEmailAndPassword(email, password)
+        .then(function(result) {
+            result.user.updateProfile({
+            displayName: userName
+            })
+          }).catch(function(error) {
+            console.log(error);
+          });
     }
 
     function login(email, password) {

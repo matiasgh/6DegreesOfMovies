@@ -32,20 +32,21 @@ export function GameProvider({children}) {
 
 
     function prepMovies(items){
-        const movies = items[1].movies
-        movies.forEach((moviesArr, index) =>{
-            moviesArr.split("|").forEach((movie, i) =>{
-                const line = (movie.split("\t"))
-
+        let movies2 = items[5].movies
+        movies2.split("|").forEach((movie, i) =>{
+            const line = (movie.split("\t"))
+            if (line[0] != ""){
                 tempAllMovies.set(line[0].trim(), new Movie(line))
-            })
+            }
         })
-        prepActors(items[0].actors)
+
+        prepActors(items)
     }
     
     
     function prepActors(actors){
-        actors.forEach((actorArr, index) =>{
+        let allActors = [actors[1].actors, actors[2].actors, actors[3].actors]
+        allActors.forEach((actorArr, index) =>{
             actorArr.split("|").forEach((actor, i) =>{
                 const line = (actor.split("\t"))
                 // After splitting the string on tab, i end up getting a empty string on index 2

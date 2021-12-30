@@ -1,6 +1,6 @@
 import { BiMovie } from "react-icons/bi"
 import { FaTheaterMasks } from "react-icons/fa"
-import { Card, Row, Col, Container, ListGroup } from "react-bootstrap"
+import { Card, Row, Col, Container, ListGroup, Image } from "react-bootstrap"
 import {Movie} from "../graphComponents/Movie"
 
 
@@ -31,8 +31,10 @@ export default function GameOver({ score, solution, userPath }) {
                                         {userPath.map((e) => (
                                         <ListGroup.Item style={{backgroundColor:"cornsilk"}}> 
                                             <h6>
-                                                {(e instanceof Movie) ? <BiMovie style={{color:"black", marginRight:"20px"}}/> 
-                                                    : <FaTheaterMasks style={{color:"black", marginRight:"20px"}}/> }
+                                                {(e instanceof Movie) ? <Image src={e.picture} fluid style={{color:"black", marginRight:"20px", maxHeight:"50px"}}/>
+                                                // <BiMovie style={{color:"black", marginRight:"20px"}}/> 
+                                                    : e.picture != "undefined" ? <Image src={e.picture} fluid style={{color:"black", marginRight:"20px", maxHeight:"50px"}}/> 
+                                                    : <FaTheaterMasks style={{color:"black", marginRight:"20px"}}/> }                                                    
                                                 {e.name}
                                             </h6>
                                         </ListGroup.Item>
@@ -46,8 +48,10 @@ export default function GameOver({ score, solution, userPath }) {
                                         {solution.map((e) => (
                                         <ListGroup.Item style={{backgroundColor:"cornsilk"}}> 
                                             <h6>
-                                                {(e instanceof Movie) ? <BiMovie style={{color:"black", marginRight:"20px"}}/> 
-                                                    : <FaTheaterMasks style={{color:"black", marginRight:"20px"}}/> }
+                                            {(e instanceof Movie) ? <Image src={e.picture} fluid style={{color:"black", marginRight:"20px", maxHeight:"50px"}}/>
+                                                // <BiMovie style={{color:"black", marginRight:"20px"}}/> 
+                                                    : e.picture != "undefined" ? <Image src={e.picture} fluid style={{color:"black", marginRight:"20px", maxHeight:"50px"}}/> 
+                                                    : <FaTheaterMasks style={{color:"black", marginRight:"20px"}}/> }                                                    
                                                 {e.name}
                                             </h6>
                                         </ListGroup.Item>
