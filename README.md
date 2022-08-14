@@ -1,3 +1,6 @@
+### URL to hosted project
+https://degreesofmovies.web.app/scoreboard
+
 ### About The Project
 6DegreesOfMovies is a project I made in my spare time. The main purpose of the project was to teach myself web development, as this is something I dont dont learn at university. 
 
@@ -8,6 +11,8 @@
 
 ## How to play
 You are given two actors, one you start with, and one you have to navigate through movies and actors to find. You will then get a score based on how many moves you used, time and difficulty. More information at the game website.
+
+You need to sign up for playing. You do not have to authenticate or confirm your email. The email is only used as an id to your account.
 
 Be aware that the website is not developed for mobile useres and the GUI for mobile is therefor not great.
 
