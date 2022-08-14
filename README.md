@@ -9,6 +9,8 @@
 ## How to play
 You are given two actors, one you start with, and one you have to navigate through movies and actors to find. You will then get a score based on how many moves you used, time and difficulty. More information at the game website.
 
+Be aware that the website is not developed for mobile useres and the GUI for mobile is therefor not great.
+
 
 ## Technologies
 
