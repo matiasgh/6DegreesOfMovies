@@ -1,5 +1,7 @@
 import React, {useContext, useState, useEffect} from 'react'
 import { auth } from "../firebase"
+import app from "../firebase"
+
 
 const AuthContext = React.createContext()
 
@@ -16,8 +18,23 @@ export function AuthProvider({children}) {
     // A loading switch to make sure that "user" will not be used whenever user state is null
     const [loading, setLoading] = useState(true)
 
+    const colRef = app.firestore().collection("scores")
+
     // Make request to firebase to make a new user, on success the new user will be signed in
     async function signup(email, password, userName){
+        const colRef = app.firestore().collection("scores")
+        colRef.doc(email).set({
+            easy: [],
+            medium: [],
+            hard: []
+        })
+        .then(() => {
+            console.log("Document successfully written!");
+        })
+        .catch((error) => {
+            console.error("Error writing document: ", error);
+        });
+
         return auth.createUserWithEmailAndPassword(email, password)
         .then(function(result) {
             result.user.updateProfile({

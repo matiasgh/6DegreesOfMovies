@@ -1,12 +1,11 @@
-import { BiMovie } from "react-icons/bi"
+import { BiCurrentLocation, BiMovie } from "react-icons/bi"
 import { FaTheaterMasks } from "react-icons/fa"
 import { Card, Row, Col, Container, ListGroup, Image } from "react-bootstrap"
 import {Movie} from "../graphComponents/Movie"
 
 
+
 export default function GameOver({ score, solution, userPath }) {
-
-
 
     return (  
         <Container fluid>
@@ -22,7 +21,7 @@ export default function GameOver({ score, solution, userPath }) {
                         <Col>
                         </Col>
                     </Row>   
-                    <Card border="info" bg="light" style ={{maxWidth: "1000px", minWidth: "650px", maxHeight: "300px", marginBottom:"50px"}}>
+                    <Card border="info" bg="light" style ={{maxWidth: "1000px", minWidth: "650px", maxHeight: "300px"}}>
                         <div style={{overflowY: "auto", overflowX: "hidden"}}>
                             <Row>
                                 <Col>
@@ -61,7 +60,7 @@ export default function GameOver({ score, solution, userPath }) {
                             </Row>
                         </div>
                     </Card>
-            </Container>   
+            </Container>  
         </Container>
     )
 }

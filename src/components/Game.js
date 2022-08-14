@@ -6,7 +6,10 @@ import { Card, Button, Row, Col, Container, ListGroup, Image } from "react-boots
 import { useHistory } from "react-router-dom"
 import { BiMovie, BiArrowBack} from "react-icons/bi"
 import { FaTheaterMasks } from "react-icons/fa"
-import Scoreboard from "./Scoreboard"
+import app from "../firebase"
+import {useAuth} from "../contexts/AuthContext"
+import firebase from "firebase"
+
 
 
 
@@ -29,6 +32,8 @@ export default function Game() {
 
 
     const { graph, allActors, allMovies } = useGame()
+    const ref = app.firestore().collection("scores")
+    const {currentUser} = useAuth()
 
 
     function calculateScore(){
@@ -64,7 +69,36 @@ export default function Game() {
     }
 
     function putScore(score){
+        let playerScore = ref.doc(currentUser.email)
+        let highScore = ref.doc("highscores")
 
+        let dateStam = Date.now()
+        if (baseScore === 5000) {
+            playerScore.update({
+                "easy": firebase.firestore.FieldValue.arrayUnion(`${score.toString()}|${currentUser.displayName}|${degree}|${Math.floor(solution.length/2)}`)
+            });
+            highScore.update({
+                "easy": firebase.firestore.FieldValue.arrayUnion(`${score.toString()}|${currentUser.displayName}|${degree}|${Math.floor(solution.length/2)}`)
+            });
+        }
+
+        else if (baseScore === 7500) {
+            playerScore.update({
+                "medium": firebase.firestore.FieldValue.arrayUnion(`${score.toString()}|${currentUser.displayName}|${degree}|${Math.floor(solution.length/2)}`)
+            });
+            highScore.update({
+                "medium": firebase.firestore.FieldValue.arrayUnion(`${score.toString()}|${currentUser.displayName}|${degree}|${Math.floor(solution.length/2)}`)
+            });
+        }
+
+        else if (baseScore === 10000) {
+            playerScore.update({
+                "hard": firebase.firestore.FieldValue.arrayUnion(`${score.toString()}|${currentUser.displayName}|${degree}|${Math.floor(solution.length/2)}`)
+            });
+            highScore.update({
+                "hard": firebase.firestore.FieldValue.arrayUnion(`${score.toString()}|${currentUser.displayName}|${degree}|${Math.floor(solution.length/2)}`)
+            });
+        }
     }
 
     useEffect(() => {
@@ -211,6 +245,16 @@ export default function Game() {
                 </Card>
             </Container>}
             {gameOver && <GameOver score={score} solution={solution} userPath={userPath}/>}
+            {gameOver && <Container className="d-flex align-items-center justify-content-center">
+                <Row style={{marginBottom: "50px"}}>
+                    <Col>
+                        <Button variant="success" onClick={startGame}>Play Again</Button> 
+                    </Col>
+                    <Col md="auto">
+                        <Button variant="info" onClick={scoreboard}>Your Scores</Button> 
+                    </Col>
+                </Row>
+            </Container>} 
         </Container>
     )
 }

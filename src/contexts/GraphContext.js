@@ -86,7 +86,7 @@ export function GameProvider({children}) {
     
             })
         
-        return () => unsubscribe()
+        return () => unsubscribe
     },[])
 
     // exports current user and signup fuction so you can do signup requests from signup component
