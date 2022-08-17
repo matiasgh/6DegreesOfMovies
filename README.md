@@ -1,5 +1,5 @@
 ### URL to hosted project
-https://degreesofmovies.web.app/scoreboard
+https://degreesofmovies.web.app
 
 ### About The Project
 6DegreesOfMovies is a project I made in my spare time. The main purpose of the project was to teach myself web development, as this is something I dont dont learn at university. 
