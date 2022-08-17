@@ -22,6 +22,8 @@ Be aware that the website is not developed for mobile useres and the GUI for mob
 * React JS
 * React-Bootstrap
 * Firebase
+* Python for datamanagement in dataset
+* Beautiful soup for webscraping pictures
 
 ## Yet to come
 The project still has a number of shortcomings that will be implemented soon. First and foremost, the website should be hosted with the domain, so that one can actually look at the project. Furthermore, the possibility to add scores and look at the scoreboard will be implemented.
