@@ -22,7 +22,7 @@ Be aware that the website is not developed for mobile useres and the GUI for mob
 * React JS
 * React-Bootstrap
 * Firebase
-* Python for datamanagement in dataset
+* Python for datamanagement of dataset
 * Beautiful soup for webscraping pictures
 
 ## Yet to come
